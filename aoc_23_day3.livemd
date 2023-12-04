@@ -1,0 +1,758 @@
+# Advent of Code 2023 - Day 3
+
+```elixir
+puzzle_input = """
+............409..........784...578...802......64..............................486.248..............177....................369...............
+.....-939..........524#...#....=.......*.........+......90.................................76..615..-..@.....961..........$.......*.........
+............951*........................736...955..258....*.....253@.............210.10.....=...*.......776...*....&...............600..274.
+152.78..........671.....936.......................*..........14...............................575.=.........214..519.....787.739........*...
+...*....591......................514*155..........807...............516.............23...5#.......250.531...................*......-..71....
+.............................................254..........69&........*..............*....................*...............*........785.......
+....5....../.42..908*166..242*825.....................19%............148..822......127..+...+...........971...........206.540.753...........
+........111.........................%...............$..........635..........*..........222.286..823..........%................&...=630......
+..821&.......815.............424$...303.322.311..156...........*....786.....91..620............*....319......406......187..............&865.
+........................&975...............*.........649.40..417.......+.........../............39....................*...........%.........
+...300............546...........................640...=...................................319............246....883.253...690...526......435
+.................*......#..............571..121*.........542..938.13...532*....726....795.........%........*.............*...........683*...
+......173.568.624....190................*..........*542....................464..*..................519.144..652.65......926.................
+.......=....*..............................-...@................................592..658..78*537..........#...................303.200*......
+..780.....716.......858..527.775.....587.314...374.......375....777.166.............................................677*394.....*.....512...
+....&..............*...........-......*......*.....900...*.../../............287..255.......431...........104..440..........803..844........
+...............%....875.............920...615.556......488.308....888........@.......$..522*..........511.*............/.....&..............
+........688....778.............410.................+...............*..#322......234...........692....*.....583.240+....800.............&....
+.......*........................*......844-.........683....941..341...............*..........#......637.....................=768..983.80....
+.......312...........113.........858........427.685........................*211..336..........................502...........................
+......................*......151........293.+.....*...454................63.............39........831+.........%......./...$................
+..187........677......165....*......104..*.......145.@.........444..767...................*...975................659.352.844....*.160.......
+......+.967.#..............116.........+..866...........=.......*......*404..............659.....*...............*............293...*.......
+...801....*.....937............................/.........553..623....*........567....244......%...816....994.....510....173........547......
+...........609...............................783.....848..........511.718.....*.............116.........*......................&.......65.46
+102...................356..810......................*.....721..............244...$.....315...........&..605...22..........665.411..../......
+..................956*.....*......523.............622........*.................322........*........703............888.......*.......714.....
+...896.....580.............146.....&..861..............327...766..93.......534...........482..327.........494.....*.......978...............
+....*.........*..-.....&.........................701.....-.........*...429....................%...$.........*..895..................../.....
+..561..517..994.248.596......&...$.....196.701.....*............217...*....160........240..+....265..471..76............509..15........245..
+.........*...............615.801.837......*......661.181...707......613...-.......495......959..........*....#...........*....$.............
+.....-...107............@...................&................*.....................*....$............853.....808..249.160.......725......151
+....549......137..........288@...759.$......961....#..........................788.....846......920................../.......774.............
+........865...%...993...........#.....850...........636.104..204.192...387...%............382.....+..&.......436........682*.......532......
+........................893*660...........................-.....*.........&......$........../.334....505.+....-..732*................*......
+........./....976....*..........35....178.18*970.752...+..........................567..258.......*.......829...........+..358*..*464..189...
+.....676.319..........222......*.................*......559...604.......-.....687.....*..........16..........492......376...................
+....*.............157.........909................266..........*.........971..+.....211..885...........$.......%.....@............#..........
+.284.....167.....*....83...........408....290...............538........................../....&.84*...885........575..........511..481......
+............*770..844.=..599..........*......*457.....$861................779..240...$......897..........................520%......*........
+...........................*..972.527.844.........................&........*..........26........957.................787.........759.........
+...530#.396&.............670.*.....+.......*.....503*689....486#.558....522........................=..........629..%........................
+..................96*........320..........972...............................$..776.....................755...*...................265*53..265
+....48............................736...........*..........771..85..360..705......*501..793..................685........................*...
+.....*...@705.233....648#..........+.........780.....13...=......*....*.........................*..................898%....282........478...
+..186.....................369............327.........=.........14...472..........942...*.....817.......611....66-..........&......236.......
+..................308*......#.......226.....&..............573..................*....85.9.........801..*..........217*........237*..........
+.........*............728......847...#................+.......*......267.....634.................=......979...........14...............364..
+....99.213.......=........468...............%446...647......%..822..../...........819................*.........469.........70.37.......*....
+.................143..762*....977.........................649..................../.....123....-...902.67..939..&.............*........793...
+.......982...=......................................414...................477.........=......266..........=.............622*....672*........
+..........#.797...../608.......173...=.........................111...............219.....252....................438.726.....902.....25.=....
+......-..................863..*......805.9.......107..............*........151.....*........*234...422....995....*.....*................866.
+....670...........544.....*....311.......*....$.$............................-..943.......*........*......=.......167...695.................
+..................../......508..........278..78.........459+...........................922.201....513.518....985............476%............
+..556......905..341....683........732*..........437.753..........331*..342..374.475..@.................*....*.........591............+972...
+.../.........*...*........*...........................*.....833.......*...............566....*..........460..621.836..*.....................
+.............627..912......49.........289.....910...737.....*........645.....977..159.....707..104.644............-...872..........&....453.
+.......................................*...../...............287.........375*........-.........*....*..723+...256...........361....184.*....
+...%..231.......187......8.....*569.138..................963.........184.........899........571...836..........*...*..........*.........349.
+546...*............+....*....29...........885......20......./......................*.........................95.....660........470..........
+.....568..902........178.............313..*.........*...............706.....19....724....338..........880*......701........996......84.701..
+....................................*.....253..535.893........+.............=..............*..............520...............&......-........
+..............&..747............877..990................./.....45.........................604....&...................152......275.....%931..
+......515....26....=..128........*..........%.....753...374...........522*835.........838.....344...222..........602....+....*..............
+.....................*.....975....12......717.966*.............734.............486...*.................*.....634*..........431..%........645
+115.388......#......670...............................251..851....*.....666.....*..887.18..532......661..685.....................947....+...
+...*..........977.........308...........279......63....*..........194..*.....886.........*.../.............*......543.419...................
+....................355....*....489...............*.....496.............933......714....91.....558*669.....475.../....*..........501........
+...737..807.................545...*..............873............763....................................864..........152............*........
+......*..$...553......695..........623..319........................+..681./....@835..669...........530*.......................402.538.......
+....334.....$.............................................186........*.....977.......*.....................82.....950.....985*...........751
+...................222......847.........347..............&.........213............+..168..........820&.......@...*....211............150*...
+.....*520......................$.......*......630..............193.......597....266.........744..................950.....*...584............
+..947.......................@.....903.....889*.......693......-.........*......................*365..........846........655...*.............
+......*609.........425.478..597.....*..................#..=........=...............469......*............721....*267..........872...........
+...997.......975..........*.........419........630.691...646......939.................*..865.933.805*676....*...............................
+.........102*....544..984.258.526.........*...=...........................@........473......................932......247...............955..
+.................*......=.......*........553....................517...600..344.....................742...............%....=...........+.....
+....................351......970..........................280......*.....*........&.........782........................486..............&...
+...........359...........604.......997...274....682.673....*..156.831.392.....@..228.814......*.........145.......835.............222.570...
+..694...........+....157.%...848..*.....*.........$....*.246.+.............447.......*......259..@381......*54.....@............%.*.........
+.....*.......433....#..........*..594.184...........743............196.........967.987.......................................649...941.@....
+......97......................386...............%........................839..............760.............151...&...344................871..
+.....................186..937.....*528.....263.179....#976....405...................+...............522........65...*...........*...........
+......-893........+....*....*..........@.........................#.401.....72+....719.104.....731...*....31#......93..274+....41.348........
+...........854.....855...879.........950.....342....771...............................*.......*....546......................................
+........$......601...........526*943.........*....#..*..............124.&839..#......161....558...............140...........................
+.......131.................................665.266...732.....949......*.......31................@754...*...........932*................&....
+...............169....889.....271*613........................*.....194...+............................107..............142....551*925.56....
+........267.....%....*...................................281.750.......563...........848.477..655..........674..............................
+............312....716.......................#.....802.....*.......281......../.........*......*...........*...708..........................
+.......594..*...............359....462*......405.....=...............&.........439.........759....*........987....*330......................
+736....*.....580.....26.......*.........................467.........................456...*.....13.102.460..................693.....960.....
+........227..........&...861...523.554..877.............=.....429................./........383...........*......$.......623....*.........651
+....568........988......+..................%.....................*689.......@..691...39.........=.....123.......869...........1.........$...
+....+.....892......581*.............876....................................603.........*......399......................927-.................
+.........*....-........611............*....+......443.=.....856.%559................679..592....................853.........925...34........
+...26.303.....944...........726.....444.....961....*...433....*......*215...26...95.............82...........................*.....@./......
+..........710......130..........13..............443../.....391....260......&.......*.....751....*...........................508.......555...
+.........*.....958*.....93..235*......................460........................491.......*.....324.........$409..972...2..................
+....352..534...........*........./.........#.................580.........834................973......102.632......*.......*............48...
+.................&...820.206..890..66....683....................%...*493.....256...$....................*................434.....884..&.....
+.585/.........664........*...............................%...............512..*..914..188....*................941*...........282....@...+...
+..........521.........168..../....94.139..............793...............*....827.....*....215..........24.............................787...
+..790........*...............148...&.*.........................172.205..728...........153.......176......*963..649.....628......19..........
+......883....806.....686..............226...763.......................#...........229.............*...........*....321..-....../.......60...
+.495....*....................................=..........21..357...839........*968...*............469........339....................../.*....
+......457.495.........@.....-.....89.613..........214..*......*.....$.....958.......341...%.....................645...274..37......82..465..
+...70.................932..83.787..*..$..........$.....218..787............................7..287...............*.......*....+..............
+....*..104...559...92...........*.373....$.............................163...........304.........*...........667.....547..67................
+.851................*.....267.189.........312...434...$837.........344.#..............=......604.679.......................@................
+....................883....-......258.896....................*.....-.......687..488............*...................615$.....................
+.746................................*...+.173*605.....609...812........721..=..*...........582..906......../...85.........940.409..928......
+.......................136......49.493............../....@..............*.....721....857...*.............62......-...465....*..=......*.....
+.................736.............*.........*.....968..........685..949.755............*.....37..*.............=....................*..53....
+466..621....812=..*......203....151.....828.48............871*......*............/.....764.....384.........37..905.............&.314........
+.....*.............575....*...........8..........#244............708...........131.....................546..*........641....189.............
+...801........554..........772.............989.......................................751...523...117......*..538........*..........*........
+.......82/........+..202........*749..........*../....402...140%......................+.....*.......#..202............93..604*..438.567..128
+.307............564..........353............442...153.*.......................516..5.......414................131.......................*...
+...........765.........259.......148...632..................722..348&..115.........-.............195.$186.729.......19*................602..
+...69.249....$......+.*......452..*.........288.........975....&......../.....865.................*.........*...744....423........756*......
+...*...=..........882..801..../..455..........=............-.........16........*..957..841......912..581....887..-...........745......464...
+....62.................................734......544..........898.....*.......548..=....*.............+.............516..632....*............
+...............$..............977%......&...512*..............*.......473...............985.678..128.............+...*.....+..330...........
+..942........181......831$................................430..399...........637*356..........*...../...........656...500.........135*403...
+...*.........................501.6@..307....174*722..........*........................*281.663..............101.............................
+.997..53.......-.......................*....................67.324%.117........=...227......................./.............385.......198..26
+.......@..634.669...............743.....869..........233...............*......948..........................#....817.......&...........*.....
+.........%.........280..+.........-.66.............%...+......393.999..745..$.......$........472..940.......70.....*........$......+..615...
+....................@..718..%464....*...........797..........*...............134.....38..560*........*..............388......307...49.......
+..113.......274.800..............992.......373#......791.....775.873.................................227..849=.357..........................
+....*..........*........75..........................*....775........*..179......................................*......77.........=293..987.
+...501..............766*...............26*805......692......*.....917....#.........................+.....483.413..........810...........*...
+.......358.160..............555...798......................684.....................676..........229......*........+..815.................657
+..........*....432.........-......*..............................550....795...816...$.................758........193....-.......222%.666....
+......139...$.....#.894..........226.....826..........*248..850$..........#..*....@...........895*..8.....340.+...........922.........=.....
+..892*....162.........*..................@.........249...........*............845..902...+................#....800..974....*................
+....................86...337...............710....................143.....................179.....976.......................419.........468.
+"""
+```
+
+## Day 3
+
+Okay, this question seems to want us to find _all numbers adjacent to a symbol_. We're given a matrix of numbers, symbols, and periods representing empty spaces.
+
+There are a lot of ways we could approach this! There might also be a lot of steps to get the data we want... Let's look at two possible approaches:
+
+1. **Number first**: Each time we find a number, we check to see if any of its digits are adjacent to a symbol.
+2. **Symbol first**: Each time we find a _symbol_, we look around it to see if there are any digits, then reconstruct the whole number from those digits.
+
+I think the first approach would be less error-prone, personally. I'm imagining a situation where a symbol is directly underneath a three-digit number. We'd need to treat these two situations differently:
+
+```
+..456..      45.67
+...*...      ..*..
+```
+
+It makes more sense to me to take a **number first** approach, and do something like this:
+
+1. First and foremost, parse the input into a 2-dimensional array.
+   > I'm thinking that we might optionally want to wrap the entire input in `.`, to prevent index-out-of-range errors when we're looking for neighbors
+2. Start iterating over our list-of-lists. When we hit a digit (something that can be `Integer.parse/1`-ified), we start iterating until we reach a period.
+
+* 2a) We need to record the coordinates of each digit, so we can run some kind of `adjacent_to_symbol?` function on each of them later.
+* 2b) We also need to keep track of a running sum, somehow, which might be a pain in a language where immutability is a feature :)
+* 2c) Once we have the coordinates, we'll need to check all neighbors (`{x-1, y-1}, {x, y-1}, {x+1, y-1}`, etc.) to see if any is a symbol.
+* 2d) If the number is adjacent to a symbol, add that number to our running total
+  > If the running total turns out to be a pain, we could construct a list of all of the `numbers_adjacent_to_symbols` and then `Enum.sum/1` them at the end.
+
+This sounds like a lot of work! We'll also need some helpers - a list of symbols, for one. I'll do a quick pass over the input and gather a list of all of the symbols we see there.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+puzzle_input
+|> String.graphemes()
+|> Enum.uniq()
+|> Enum.sort()
+```
+
+Cool, I'll make a wordlist out of those symbols, ignoring numbers, periods and newlines.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+symbols = "@#$%&*-+/="
+```
+
+Alright, and to make it a little easier on myself, I'm going to wrap the puzzle_input in `.` characters. Let's split it up by newline first.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+parsed_puzzle_input =
+  puzzle_input
+  |> String.trim()
+  |> String.split("\n")
+```
+
+Looking good, let's append and prepend a `.` to each line, and add a line of `.` characters to to beginning and end of the whole list.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+wrapped_puzzle_input =
+  Enum.map(parsed_puzzle_input, fn row ->
+    "." <> row <> "."
+  end)
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+period_row = for _ <- 1..String.length(Enum.at(wrapped_puzzle_input, 0)), do: "."
+```
+
+Now let's split `wrapped_puzzle_input` and pad a new array with our `period_row` in front and behind.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+finessed_puzzle_input =
+  [
+    period_row
+    | Enum.map(wrapped_puzzle_input, &String.graphemes/1)
+  ] ++ [period_row]
+```
+
+Okay, we've got our input in the desired format... We need to iterate over these lists, and `do something` when we hit a character that can be parsed into an integer.
+
+```
+Enum.each(finessed_puzzle_input, fn row ->
+  Enum.each(row, fn char ->
+    case Integer.parse(char) do
+      {num, _} -> do_something(num)
+      _ -> nil
+    end
+  end)
+end)
+```
+
+But what is it we're supposed to do, exactly? Well, we need to collect the `{x, y}` coordinates of the number, and all subsequent numbers until we hit a dot. Hmm... Maybe this would be easier if I used `Enum.with_index/1` or something, and mapped all of the characters into little structs? Something like:
+
+```
+%{
+  x: 0
+  y: 0
+  value: "."
+}
+```
+
+Actually, I don't see how that would really help me. Scratch that, let's instead focus on the tasks we need to accomplish:
+
+1. If the cell we're on contains a number, look at the subsequent cells until we hit a dot.
+2. Gather all of the adjacent cells and build a list of the adjacent coordinates
+3. If any of the adjacent coordinates is a symbol, put our whole number in a list
+
+It's getting late and efficiency is going out the window, so the code for this is gonna be a little bit gnarly.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule NumberBuilder do
+  # 
+  def build(row, start_index) do
+    do_build(row, start_index)
+    |> Enum.reverse()
+    |> Enum.join("")
+    |> String.to_integer()
+  end
+
+  defp do_build(row, index, acc \\ []) do
+    case Integer.parse(Enum.at(row, index)) do
+      {num, _} -> do_build(row, index + 1, [num | acc])
+      _ -> acc
+    end
+  end
+end
+```
+
+Alright, that should return a number from a row of characters, let's see if it works:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+NumberBuilder.build([".", ".", "3", "4", "."], 2)
+```
+
+Alright, great. But we also need to know how "long" the number is, so we can tell what cells are adjacent. I guess we can do that by recursively running `div/2` on the number by 10 until we get a zero back, and incrementing a counter each time we run it:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule NumberLengthGetter do
+  def get_number_length(number) do
+    do_get_number_length(number)
+  end
+
+  defp do_get_number_length(number, acc \\ 0)
+  defp do_get_number_length(number, acc) when number == 0, do: acc
+
+  defp do_get_number_length(number, acc) do
+    new_number = div(number, 10)
+    do_get_number_length(new_number, acc + 1)
+  end
+end
+```
+
+Let's test it out:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+NumberLengthGetter.get_number_length(12345)
+```
+
+Amazing, I'm so tired, I can't believe that worked. Okay, what do we do with that information? Well, a few things, I guess. We probably want to advance our iterator by that many spaces so we don't wind up checking adjacency multiple times for a given number. And also this tells us _n_ for `{x-n, y}`, when it comes time to check those adjacent cells.
+
+I'm going to start putting this together with their example input, to see what I can learn.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+example_input = """
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+"""
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+wrapped_example_input =
+  example_input
+  |> String.trim()
+  |> String.split("\n")
+  |> Enum.map(fn row ->
+    "." <> row <> "."
+  end)
+
+example_period_row =
+  period_row = for _ <- 1..String.length(Enum.at(wrapped_example_input, 0)), do: "."
+
+finessed_example_input =
+  [
+    period_row
+    | Enum.map(wrapped_example_input, &String.graphemes/1)
+  ] ++ [period_row]
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+Enum.reduce(finessed_example_input, [], fn row, acc1 ->
+  {num_list, _, _} =
+    Enum.reduce(row, {[], 0, 0}, fn cell, {acc2, idx, skip} ->
+      if skip > 0 do
+        {acc2, idx + 1, skip - 1}
+      else
+        case Integer.parse(cell) do
+          {_num, _} ->
+            whole_number = NumberBuilder.build(row, idx)
+            number_length = NumberLengthGetter.get_number_length(whole_number)
+            {[whole_number | acc2], idx + 1, number_length}
+
+          _ ->
+            {acc2, idx + 1, 0}
+        end
+      end
+    end)
+
+  num_list ++ acc1
+end)
+```
+
+That's working out just fine, I've got all of the numbers from the matrix, and none of the symbols. Next let's focus on checking for only numbers that are adjacent to symbols.
+
+We want to check all of the cells adjacent to the entire number, so let's pass in the whole number length, and check the cells in the rows above and below for the entirety of the number, as well as diagonals.
+
+Then we also want to check the cells on the same row, immediately before and after the number
+
+So for instance, for a 3-digit number:
+
+```
+{x-1, y-1}   {x, y-1}   {x+1, y-1}   {x+2, y-1}   {x+3, y-1}
+
+{x-1, y}                                          {x+num_len, y}
+
+{x-1, y+1}   {x, y+1}   {x+1, y+1}   {x+2, y+1}   {x+3, y+1}
+```
+
+So, I think I'm going to have a nested `Enum.map/2`: one for the `y` deltas (even though there are only two) and one for the `x` deltas for each value of `y`. I'll make the outer one a `flat_map` so I can simply look for _any `true` value_ in the list of results from the adjacency check.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule AdjacencyChecker do
+  def check?(grid, start_index, row_index, number_length, _num, symbols) do
+    x_deltas = for n <- -1..number_length, do: n
+    y_deltas = [-1, 1]
+
+    results =
+      Enum.flat_map(x_deltas, fn dx ->
+        Enum.map(y_deltas, fn dy ->
+          new_x = start_index + dx
+          new_y = row_index + dy
+          String.contains?(symbols, Enum.at(Enum.at(grid, new_y), new_x))
+        end)
+      end)
+
+    before_cell = Enum.at(Enum.at(grid, row_index), start_index - 1)
+    after_cell = Enum.at(Enum.at(grid, row_index), start_index + number_length)
+    before_cell_result = String.contains?(symbols, before_cell)
+    after_cell_result = String.contains?(symbols, after_cell)
+    all_results = [before_cell_result | results] ++ [after_cell_result]
+    Enum.any?(all_results, fn result -> result == true end)
+  end
+end
+```
+
+Now in our lovely double-reducer from earlier, let's add in our adjacency check, and only accumulate the numbers adjacent to symbols.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+{numbers_adjacent_to_symbols, _} =
+  Enum.reduce(finessed_example_input, {[], 0}, fn row, {acc1, row_idx} ->
+    {num_list, _, _} =
+      Enum.reduce(row, {[], 0, 0}, fn cell, {acc2, idx, skip} ->
+        if skip > 0 do
+          {acc2, idx + 1, skip - 1}
+        else
+          case Integer.parse(cell) do
+            {_num, _} ->
+              whole_number = NumberBuilder.build(row, idx)
+              number_length = NumberLengthGetter.get_number_length(whole_number)
+
+              if AdjacencyChecker.check?(
+                   finessed_example_input,
+                   idx,
+                   row_idx,
+                   number_length,
+                   whole_number,
+                   symbols
+                 ) do
+                {[whole_number | acc2], idx + 1, number_length}
+              else
+                {acc2, idx + 1, number_length}
+              end
+
+            _ ->
+              {acc2, idx + 1, 0}
+          end
+        end
+      end)
+
+    {num_list ++ acc1, row_idx + 1}
+  end)
+```
+
+Adding them all together should give us the example input's answer of `4361`.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+Enum.sum(numbers_adjacent_to_symbols)
+```
+
+Okay, from the top, let's do the whole dance for the real puzzle input:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+wrapped_puzzle_input =
+  puzzle_input
+  |> String.trim()
+  |> String.split("\n")
+  |> Enum.map(fn row ->
+    "." <> row <> "."
+  end)
+
+period_row = period_row = for _ <- 1..String.length(Enum.at(wrapped_puzzle_input, 0)), do: "."
+
+finessed_puzzle_input =
+  [
+    period_row
+    | Enum.map(wrapped_puzzle_input, &String.graphemes/1)
+  ] ++ [period_row]
+
+{full_numbers_adjacent_to_symbols, _} =
+  Enum.reduce(finessed_puzzle_input, {[], 0}, fn row, {acc1, row_idx} ->
+    {num_list, _, _} =
+      Enum.reduce(row, {[], 0, 0}, fn cell, {acc2, idx, skip} ->
+        if skip > 0 do
+          {acc2, idx + 1, skip - 1}
+        else
+          case Integer.parse(cell) do
+            {_num, _} ->
+              whole_number = NumberBuilder.build(row, idx)
+              number_length = NumberLengthGetter.get_number_length(whole_number)
+
+              if AdjacencyChecker.check?(
+                   finessed_puzzle_input,
+                   idx,
+                   row_idx,
+                   number_length,
+                   whole_number,
+                   symbols
+                 ) do
+                {[whole_number | acc2], idx + 1, number_length}
+              else
+                {acc2, idx + 1, number_length}
+              end
+
+            _ ->
+              {acc2, idx + 1, 0}
+          end
+        end
+      end)
+
+    {num_list ++ acc1, row_idx + 1}
+  end)
+
+Enum.sum(full_numbers_adjacent_to_symbols)
+```
+
+**Thank goodness, I am one step closer to going to sleep**
+
+On to part two. Let's get all of the indices of the asterisks. We can make a map where the key is a tuple representing the `{x,y}` coordinates of an asterisk, and the value is a list of all cells adjacent to that asterisk.
+
+Then check our `numbers adjacent to symbols` to see if the number is adjacent to one of those asterisk indices. If it is, add it to the list. Later, we'll sum the lists that have exactly two elements.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule AdjacencyCheckerPartTwo do
+  def check(grid, start_index, row_index, number_length, num, _symbols, asterisk_map) do
+    x_deltas = for n <- -1..number_length, do: n
+    y_deltas = [-1, 1]
+
+    new_asterisk_map =
+      Enum.reduce(x_deltas, asterisk_map, fn dx, acc ->
+        Enum.reduce(y_deltas, acc, fn dy, acc2 ->
+          new_x = start_index + dx
+          new_y = row_index + dy
+
+          if String.contains?("*", Enum.at(Enum.at(grid, new_y), new_x)) do
+            Map.put(
+              acc2,
+              {new_x, new_y},
+              [num] ++
+                Map.get(acc2, {new_x, new_y}, [])
+            )
+          else
+            acc2
+          end
+        end)
+      end)
+
+    before_cell = Enum.at(Enum.at(grid, row_index), start_index - 1)
+    after_cell = Enum.at(Enum.at(grid, row_index), start_index + number_length)
+
+    new_asterisk_map =
+      if String.contains?("*", before_cell) do
+        Map.put(
+          new_asterisk_map,
+          {start_index - 1, row_index},
+          [num] ++
+            Map.get(new_asterisk_map, {start_index - 1, row_index}, [])
+        )
+      else
+        new_asterisk_map
+      end
+
+    new_asterisk_map =
+      if String.contains?("*", after_cell) do
+        Map.put(
+          new_asterisk_map,
+          {start_index + number_length, row_index},
+          [num] ++
+            Map.get(new_asterisk_map, {start_index + number_length, row_index}, [])
+        )
+      else
+        new_asterisk_map
+      end
+
+    new_asterisk_map
+  end
+end
+```
+
+It ain't winning any awards, but I think it'll get the job done. Some days you just want a global variable.
+
+We need to change our accumulator in our cherished nested reducer, to return the `asterisk_map`.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+Enum.reduce(finessed_puzzle_input, {%{}, 0}, fn row, {acc1, row_idx} ->
+  {row_asterisk_map, _, _} =
+    Enum.reduce(row, {%{}, 0, 0}, fn cell, {acc2, idx, skip} ->
+      if skip > 0 do
+        {acc2, idx + 1, skip - 1}
+      else
+        case Integer.parse(cell) do
+          {_num, _} ->
+            whole_number = NumberBuilder.build(row, idx)
+            number_length = NumberLengthGetter.get_number_length(whole_number)
+
+            asterisk_map =
+              AdjacencyCheckerPartTwo.check(
+                finessed_puzzle_input,
+                idx,
+                row_idx,
+                number_length,
+                whole_number,
+                symbols,
+                acc2
+              )
+
+            {asterisk_map, idx + 1, number_length}
+
+          _ ->
+            {acc2, idx + 1, 0}
+        end
+      end
+    end)
+
+  {Map.merge(acc1, row_asterisk_map), row_idx + 1}
+end)
+```
+
+That... Might be right. Gonna run it with the example output to see if I get their answer.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+{example_asterisk_map, _} =
+  Enum.reduce(finessed_example_input, {%{}, 0}, fn row, {acc1, row_idx} ->
+    {row_asterisk_map, _, _} =
+      Enum.reduce(row, {acc1, 0, 0}, fn cell, {acc2, idx, skip} ->
+        if skip > 0 do
+          {acc2, idx + 1, skip - 1}
+        else
+          case Integer.parse(cell) do
+            {_num, _} ->
+              whole_number = NumberBuilder.build(row, idx)
+              number_length = NumberLengthGetter.get_number_length(whole_number)
+
+              asterisk_map =
+                AdjacencyCheckerPartTwo.check(
+                  finessed_example_input,
+                  idx,
+                  row_idx,
+                  number_length,
+                  whole_number,
+                  symbols,
+                  acc2
+                )
+
+              {asterisk_map, idx + 1, number_length}
+
+            _ ->
+              {acc2, idx + 1, 0}
+          end
+        end
+      end)
+
+    {Map.merge(acc1, row_asterisk_map), row_idx + 1}
+  end)
+```
+
+Makes sense, `617` is the only number adjacent to that asterisk, and the rest have two numbers. Awesome.
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+# for every map entry, if the value contains exactly two elements,
+# multiply them together and add to an accumulator
+
+Enum.reduce(example_asterisk_map, 0, fn {_k, v}, acc ->
+  if length(v) == 2 do
+    acc + Enum.at(v, 0) * Enum.at(v, 1)
+  else
+    acc
+  end
+end)
+```
+
+Okay, let's do the same thing with the real input:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+{full_asterisk_map, _} =
+  Enum.reduce(finessed_puzzle_input, {%{}, 0}, fn row, {acc1, row_idx} ->
+    {row_asterisk_map, _, _} =
+      Enum.reduce(row, {acc1, 0, 0}, fn cell, {acc2, idx, skip} ->
+        if skip > 0 do
+          {acc2, idx + 1, skip - 1}
+        else
+          case Integer.parse(cell) do
+            {_num, _} ->
+              whole_number = NumberBuilder.build(row, idx)
+              number_length = NumberLengthGetter.get_number_length(whole_number)
+
+              asterisk_map =
+                AdjacencyCheckerPartTwo.check(
+                  finessed_puzzle_input,
+                  idx,
+                  row_idx,
+                  number_length,
+                  whole_number,
+                  symbols,
+                  acc2
+                )
+
+              {asterisk_map, idx + 1, number_length}
+
+            _ ->
+              {acc2, idx + 1, 0}
+          end
+        end
+      end)
+
+    {Map.merge(acc1, row_asterisk_map), row_idx + 1}
+  end)
+```
+
+Please, please be right:
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+Enum.reduce(full_asterisk_map, 0, fn {_k, v}, acc ->
+  if length(v) == 2 do
+    acc + Enum.at(v, 0) * Enum.at(v, 1)
+  else
+    acc
+  end
+end)
+```
+
+And there's the second gold star. Today's was kind of nasty. Lots of things that feel like they would have been easier in an imperative paradigm.

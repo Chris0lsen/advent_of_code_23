@@ -1,0 +1,617 @@
+# Advent of Code 2023 Day 2
+
+```elixir
+puzzle_input = """
+Game 1: 2 red, 2 green; 1 red, 1 green, 2 blue; 3 blue, 3 red, 3 green; 1 blue, 3 green, 7 red; 5 red, 3 green, 1 blue
+Game 2: 5 green, 4 red, 7 blue; 7 red, 4 green, 4 blue; 8 green, 11 blue, 4 red; 2 red, 18 blue, 3 green; 7 red, 15 blue
+Game 3: 2 green, 4 blue; 2 red, 2 green; 6 red, 1 green; 2 red, 1 green; 2 green; 5 blue, 5 red
+Game 4: 10 red, 7 green, 10 blue; 8 red, 2 green; 9 green, 6 red, 5 blue; 8 green, 2 blue, 4 red; 5 green, 9 blue; 10 red, 1 green, 9 blue
+Game 5: 10 blue, 7 green, 2 red; 2 blue, 4 red; 2 green, 9 blue, 8 red
+Game 6: 3 green, 8 red; 1 blue, 11 red, 2 green; 2 green, 15 red, 8 blue; 13 red, 6 blue, 3 green
+Game 7: 4 green, 10 red, 7 blue; 6 red, 9 blue, 9 green; 2 red, 1 blue, 6 green
+Game 8: 1 red, 3 blue, 2 green; 7 green, 2 blue; 10 green, 1 red, 2 blue; 1 red
+Game 9: 4 red, 3 green, 11 blue; 6 red, 4 green; 15 red, 7 blue, 7 green
+Game 10: 7 red, 1 blue, 5 green; 11 red, 7 green, 1 blue; 2 green, 4 blue, 13 red
+Game 11: 2 blue, 13 red, 12 green; 6 green, 5 red, 4 blue; 5 red, 11 green
+Game 12: 7 blue, 3 red, 11 green; 5 red, 1 blue, 8 green; 9 green, 7 blue, 8 red
+Game 13: 1 blue, 12 red; 9 red, 1 green, 1 blue; 8 red; 1 green, 4 red; 2 red
+Game 14: 6 blue, 5 green, 1 red; 12 blue, 4 red, 9 green; 7 green, 6 red; 8 blue, 10 green, 4 red; 8 green, 7 red
+Game 15: 15 blue, 10 red, 3 green; 9 green, 6 red, 11 blue; 3 green, 8 red, 5 blue; 12 green, 6 red, 16 blue; 11 red, 9 green, 15 blue
+Game 16: 12 green, 2 red, 7 blue; 9 red, 6 blue, 9 green; 7 green, 10 blue; 9 blue, 3 red, 9 green; 5 blue, 1 red
+Game 17: 4 green, 3 red, 11 blue; 8 green, 16 blue; 10 green, 12 blue, 2 red; 8 green, 2 red, 15 blue
+Game 18: 6 red, 8 green; 16 blue; 4 blue, 6 red; 16 blue, 10 green, 3 red; 12 blue, 15 green; 9 blue, 1 green, 4 red
+Game 19: 9 green, 9 red; 4 green, 13 red, 2 blue; 2 blue, 4 green, 3 red; 5 green, 3 blue, 3 red
+Game 20: 1 green, 6 red, 12 blue; 3 green, 8 red, 11 blue; 7 green, 5 red, 2 blue; 5 green, 14 blue, 5 red
+Game 21: 5 green, 1 blue, 13 red; 3 green, 13 red, 2 blue; 8 green, 12 red, 3 blue; 3 blue, 6 green, 9 red; 1 blue, 4 green, 13 red
+Game 22: 8 green, 14 red, 15 blue; 10 blue, 8 red, 14 green; 15 green, 15 blue, 6 red; 14 green, 10 blue, 7 red
+Game 23: 18 red, 9 green; 3 green, 1 blue, 17 red; 10 red, 16 green
+Game 24: 1 red, 2 blue, 4 green; 2 red, 5 blue, 3 green; 5 green, 5 blue; 8 blue, 1 red, 3 green; 2 green, 2 red, 6 blue; 2 green, 4 blue
+Game 25: 5 blue, 4 red, 1 green; 4 blue, 8 red, 1 green; 6 red, 5 blue; 8 red; 9 red, 3 blue; 1 green, 3 blue, 5 red
+Game 26: 20 blue, 4 red, 15 green; 10 red, 2 green, 12 blue; 7 blue, 15 green, 9 red; 1 red, 10 green, 5 blue; 14 green, 7 red, 15 blue
+Game 27: 17 red, 6 green; 6 green, 5 red, 3 blue; 4 green, 4 red, 5 blue; 3 green, 3 blue, 16 red; 4 blue, 5 green, 15 red
+Game 28: 5 blue, 6 green, 1 red; 13 blue; 1 red, 9 blue, 10 green
+Game 29: 1 red, 10 blue; 9 green, 6 blue, 3 red; 17 green, 1 red, 9 blue; 7 blue, 1 red; 1 red, 15 blue, 9 green; 7 green, 1 red, 4 blue
+Game 30: 3 red, 11 blue, 2 green; 11 green, 8 blue, 8 red; 1 red, 3 green; 19 green, 11 blue
+Game 31: 19 green, 6 red; 4 green, 10 red; 12 green, 1 blue
+Game 32: 4 green, 3 blue, 10 red; 4 red, 6 blue, 3 green; 10 red, 5 blue
+Game 33: 2 blue, 5 green, 5 red; 4 blue, 2 green, 4 red; 13 red, 2 green; 7 blue, 4 green, 2 red; 19 blue, 5 green, 11 red; 4 green, 18 blue, 1 red
+Game 34: 6 blue, 9 red, 7 green; 7 green, 6 red, 12 blue; 3 red, 6 green, 16 blue; 3 green, 15 blue, 13 red; 2 green, 16 blue, 3 red
+Game 35: 4 green; 3 green, 4 red, 1 blue; 6 red, 12 green, 2 blue
+Game 36: 1 blue, 8 red, 3 green; 10 red, 5 green; 1 green, 8 red; 4 green, 1 blue, 11 red
+Game 37: 2 red, 4 blue, 5 green; 2 green, 1 blue, 3 red; 8 green, 3 red, 4 blue; 1 blue, 8 green, 2 red
+Game 38: 11 green, 4 blue; 2 blue, 11 green, 1 red; 12 green, 7 blue, 1 red; 7 blue, 10 green, 1 red; 13 green, 2 red; 1 red, 7 blue, 2 green
+Game 39: 7 green, 1 red, 15 blue; 8 red, 7 blue; 15 red, 5 green, 6 blue
+Game 40: 2 green, 12 blue, 15 red; 2 green, 6 red; 5 green, 9 red; 9 blue, 12 red; 4 green, 12 red, 12 blue; 12 red, 8 blue, 2 green
+Game 41: 9 blue, 6 red, 3 green; 6 red, 2 green, 9 blue; 1 blue, 11 red
+Game 42: 4 red, 3 blue, 13 green; 5 blue, 11 red, 15 green; 3 red, 12 green; 2 red, 6 blue, 3 green
+Game 43: 2 green, 7 red; 11 red, 18 green, 1 blue; 13 red, 12 green, 1 blue; 15 red; 5 red, 19 green; 15 green, 5 red
+Game 44: 2 red, 5 green, 7 blue; 5 green, 8 blue; 8 red, 8 green; 1 green, 1 red, 6 blue; 1 blue, 1 red
+Game 45: 3 red, 3 green, 7 blue; 12 red, 17 blue; 7 green, 8 red, 14 blue; 9 green, 10 red, 13 blue; 15 green, 16 blue, 4 red
+Game 46: 2 blue, 5 green; 4 red, 7 green; 15 red, 7 green
+Game 47: 5 red, 9 green, 4 blue; 1 red, 9 green, 11 blue; 8 green, 1 red; 4 red, 4 blue, 3 green; 10 blue, 14 green
+Game 48: 1 red, 14 blue, 11 green; 3 blue, 8 green; 5 green, 5 blue; 5 blue, 1 red, 8 green; 10 green, 2 red, 6 blue
+Game 49: 11 blue, 5 red, 3 green; 7 blue, 12 red, 4 green; 9 green, 6 red; 4 green, 3 blue, 10 red
+Game 50: 3 red, 8 blue, 13 green; 13 blue, 13 green; 3 green, 10 blue, 1 red; 12 green, 15 blue; 12 blue, 3 red, 8 green; 5 blue, 5 red, 4 green
+Game 51: 3 green, 1 blue; 1 red; 1 green, 7 blue
+Game 52: 3 red, 4 blue; 4 blue, 1 green, 2 red; 1 green, 3 red; 5 red, 1 green; 1 blue, 1 red, 1 green
+Game 53: 5 red, 17 green, 4 blue; 15 red, 14 blue, 1 green; 9 blue, 5 green; 3 blue, 5 red, 9 green; 1 green, 15 blue, 10 red; 16 green, 10 blue
+Game 54: 4 blue, 7 red, 1 green; 7 green, 8 red, 6 blue; 14 green, 1 blue, 5 red
+Game 55: 4 blue, 4 green, 1 red; 1 green; 3 red
+Game 56: 3 green, 1 red, 7 blue; 1 blue, 2 red, 3 green; 2 green, 9 red; 14 red, 8 blue, 1 green; 5 red, 13 blue; 6 red, 3 blue
+Game 57: 15 green, 5 red, 5 blue; 13 green, 13 blue, 12 red; 18 green, 5 blue, 8 red; 7 green, 7 blue, 13 red
+Game 58: 4 red, 2 blue, 6 green; 4 red, 3 green, 14 blue; 9 green, 3 red; 3 red, 5 blue, 11 green
+Game 59: 2 red, 6 green, 1 blue; 5 blue, 1 green, 4 red; 2 red, 7 green, 6 blue; 3 green, 6 blue; 1 blue, 6 green
+Game 60: 4 red, 9 green, 3 blue; 2 blue, 8 green, 6 red; 2 red, 8 green, 3 blue; 8 green, 2 red, 2 blue
+Game 61: 12 red, 4 blue, 3 green; 1 blue, 2 green; 2 red, 2 green, 3 blue
+Game 62: 4 red, 6 green, 14 blue; 12 green, 2 red, 4 blue; 5 blue, 5 red, 7 green
+Game 63: 1 green, 5 red; 5 red, 1 blue, 1 green; 1 blue
+Game 64: 6 red, 9 green, 4 blue; 8 red, 13 green; 3 blue, 8 red, 11 green; 5 red, 1 blue, 2 green; 3 blue, 7 red, 1 green
+Game 65: 15 green, 10 red, 1 blue; 1 blue, 2 red, 4 green; 10 blue, 4 green
+Game 66: 13 blue, 6 red, 2 green; 13 green; 10 blue, 8 green; 7 red, 10 blue, 11 green; 10 green, 1 red, 8 blue
+Game 67: 5 blue, 4 green, 1 red; 2 green, 4 blue, 1 red; 7 green, 2 blue, 1 red; 1 blue, 1 green
+Game 68: 2 green, 12 blue, 3 red; 5 red, 14 blue, 2 green; 6 red, 14 blue; 10 blue, 6 red, 2 green
+Game 69: 7 blue, 1 red, 12 green; 10 blue, 11 green, 6 red; 4 red, 10 green, 7 blue
+Game 70: 4 blue; 6 red, 2 green, 11 blue; 4 green, 3 blue, 2 red; 14 blue, 2 red, 4 green
+Game 71: 5 red, 17 blue; 9 blue, 11 red, 1 green; 19 blue, 6 red; 4 red, 2 blue
+Game 72: 2 green, 5 red, 1 blue; 4 green, 4 red; 4 green, 2 red; 2 blue, 2 green; 1 blue, 1 green, 5 red
+Game 73: 4 red, 3 blue, 1 green; 10 red, 2 blue, 3 green; 14 red, 1 green, 2 blue; 1 blue; 3 green, 9 red, 6 blue; 11 red, 7 blue, 2 green
+Game 74: 1 red, 5 blue, 10 green; 2 red, 9 blue, 9 green; 8 green, 2 red, 4 blue; 10 blue, 9 green; 12 green, 3 red, 5 blue
+Game 75: 3 red, 13 blue, 6 green; 3 green, 1 red; 9 green, 1 blue, 5 red; 5 green, 13 red, 4 blue; 13 green, 2 blue, 10 red; 9 green, 3 red, 10 blue
+Game 76: 14 green, 2 red, 16 blue; 2 blue, 1 red, 7 green; 14 green, 9 blue, 8 red
+Game 77: 1 green, 1 blue; 1 green; 3 red, 3 blue, 1 green; 3 green, 3 red; 1 red, 2 blue
+Game 78: 4 red, 13 green; 17 green, 1 blue, 2 red; 8 red, 14 green
+Game 79: 4 green, 10 red, 6 blue; 5 blue, 3 red, 7 green; 6 blue, 2 red, 4 green; 2 blue, 8 red
+Game 80: 19 green, 5 red; 5 green, 9 blue; 3 red, 18 blue, 10 green; 2 red, 15 green, 7 blue; 4 red, 14 green, 15 blue
+Game 81: 10 red, 2 blue, 1 green; 18 red, 3 blue; 6 red, 12 blue; 1 green, 3 red, 3 blue
+Game 82: 8 green, 1 blue; 2 blue, 4 red; 7 green, 1 red, 4 blue; 2 green, 3 red, 2 blue; 3 red; 4 red, 8 green, 1 blue
+Game 83: 3 green, 1 blue; 1 red, 2 blue, 14 green; 8 red, 17 green
+Game 84: 7 green, 4 blue, 4 red; 11 green, 17 red, 11 blue; 9 green, 5 blue, 14 red; 9 green, 10 blue, 5 red
+Game 85: 1 red, 1 green; 1 blue, 8 red, 1 green; 8 green, 1 red; 8 green, 2 red, 1 blue
+Game 86: 1 red, 5 blue, 1 green; 1 green, 7 red; 8 red; 3 blue, 2 red
+Game 87: 7 red, 8 blue, 1 green; 8 red, 6 green; 6 red, 8 green, 10 blue
+Game 88: 5 red, 4 green, 5 blue; 1 blue, 2 green; 6 green, 10 blue, 4 red; 1 red, 8 green, 1 blue
+Game 89: 3 green, 7 blue, 11 red; 1 blue, 5 green, 18 red; 1 blue, 3 green, 13 red; 7 blue, 9 green, 3 red; 1 green, 8 blue, 19 red; 4 blue, 15 red, 1 green
+Game 90: 3 blue, 3 red, 4 green; 14 red, 6 green, 4 blue; 1 blue, 9 red; 6 red, 1 green; 5 green, 8 red, 2 blue; 3 blue, 4 red, 3 green
+Game 91: 1 red, 1 blue, 16 green; 8 red, 5 green; 1 blue, 2 red, 10 green; 3 red, 15 green, 1 blue
+Game 92: 10 green, 12 blue; 6 red, 6 blue; 5 red, 12 blue; 6 red, 9 green, 2 blue; 10 blue, 3 red, 1 green; 1 red, 19 blue, 11 green
+Game 93: 4 green; 5 green, 2 blue, 3 red; 1 blue, 3 red, 6 green; 2 blue, 2 red, 7 green
+Game 94: 4 blue, 2 red; 6 green, 6 blue, 4 red; 8 green, 1 blue, 3 red
+Game 95: 6 green, 4 blue, 15 red; 13 red, 7 blue, 3 green; 14 red, 5 blue, 6 green; 5 blue, 7 red, 2 green
+Game 96: 1 red, 1 blue, 11 green; 6 blue, 2 red, 14 green; 3 green, 2 red; 9 blue, 10 green
+Game 97: 10 green; 2 red, 4 green, 1 blue; 2 green, 1 red; 2 red, 1 blue, 10 green; 1 green
+Game 98: 1 green, 5 blue; 2 green, 7 blue, 4 red; 2 red, 1 green, 9 blue; 4 blue, 4 red
+Game 99: 3 green, 1 red, 3 blue; 12 green, 12 blue, 4 red; 12 blue, 2 red, 10 green; 4 blue, 2 red, 4 green
+Game 100: 1 red, 5 blue, 2 green; 3 red, 1 blue; 1 green, 1 blue, 1 red
+"""
+```
+
+## Day 2
+
+Okay, let's take a look at what's being asked here:
+
+> The Elf would first like to know which games would have been possible if the bag contained only 12 red cubes, 13 green cubes, and 14 blue cubes?
+
+It seems at first glance like we would consider a game _impossible_ if more than _n_ cubes are revealed at once for a given color, where _n_ = 12 for red, 13 for green and 14 for blue.
+
+This seems easy enough to calculate: Once we've marshaled the data into a format that's easier to work with (like a list of lists of maps), then we can simply loop over a given game and return false if the number of cubes is above the threshold for any color.
+
+Here's what I'm hoping to get our data to look like:
+
+```
+[
+  [
+    %{blue: 3, red: 4},
+    %{red: 1, green: 2, blue: 6},
+    %{green: 2}
+  ]
+]
+```
+
+If we reduce over our list of games, we can get the sum of IDs of possible games in one iteration, simply adding to our accumulator when a game is "possible".
+
+```
+games
+  |> Enum.reduce(games, {0, 1}, fn game, {acc, index_acc} -> 
+    # if game is impossible, return {acc, index_acc++}
+    # if game is possible, return {acc + index_acc, index_acc++}
+end)
+```
+
+### What else do we need to know before we start?
+
+* The number of times the elf reaches into the bag is random, so we'll want to split our input a few times:
+  * on newlines to get the game
+  * ~~on colons to get the game ID~~ we don't need this, because the game IDs are sequential
+  * on semicolons to get each "round" of the game
+  * on commas to get each color grabbed in a given round
+* Each time the Elf reaches into the bag, he may or may not pull out a cube of a given color.
+* The game at index 0 has and ID of 1
+
+Okay, I think that's all we need to consider for this first pass. Let's give it a shot!
+
+Here are the steps I think I want to take:
+
+1. Split the input into games
+2. Split each game on semicolons to get the rounds
+3. Split each round on commas to get the color pulls
+4. Reduce over each color pull, accumulating the colors in a map
+
+* Use `String.contains?/2` to figure out which color the pull is
+* Parse the integer from the color pull
+* Assign the number to the color value of the map
+
+Let's take a break here and do a sanity check, making sure our data looks the way we want it to, before moving on to the "possibility" check.
+
+1. Reduce over the list of games as described above, accumulating the sum of "possible" IDs.
+
+```elixir
+games = String.split(puzzle_input, "\n")
+```
+
+```elixir
+Enum.map(games, fn game ->
+  game_by_round = String.split(game, ";")
+  # Let's go ahead and split the rounds by color pull in here,
+  # and save ourselves an iteration
+  Enum.map(game_by_round, fn round ->
+    String.split(round, ",")
+  end)
+end)
+```
+
+This is getting close, it's just such a nasty data structure! I think this gets us up to step 4:
+
+> Reduce over each color pull, accumulating the colors in a map
+
+Let's go ahead and do that inside of the internal map, as well. It's a lot of nested code, but in the real world we could refactor some of these map/reduce functions out into their own functions.
+
+```elixir
+games_by_pull =
+  Enum.map(games, fn game ->
+    game_by_round = String.split(game, ";")
+    # Let's go ahead and split the rounds by color pull in here,
+    # and save ourselves an iteration
+    Enum.map(game_by_round, fn round ->
+      rounds = String.split(round, ",")
+
+      Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+        case round do
+          String.contains?(round, "red") -> Map.put(acc, :red, round)
+          String.contains?(round, "blue") -> Map.put(acc, :blue, round)
+          String.contains?(round, "green") -> Map.put(acc, :green, round)
+        end
+      end)
+    end)
+  end)
+```
+
+```error: cannot invoke remote function String.contains?/2 inside a match```
+
+Nooo, but I wannaaaaa!
+
+I guess let's write a helper function that does the if/else `String.contains?/2` stuff, and returns a tuple containing the color and numeric value.
+
+```elixir
+defmodule Helpers do
+  def extract_numeral(string) do
+    string
+    |> String.trim()
+    |> String.split()
+    |> Enum.filter(fn part ->
+      case Integer.parse(part) do
+        {_, _} -> true
+        :error -> false
+      end
+    end)
+    |> Enum.map(fn part ->
+      {num, _} = Integer.parse(part)
+      num
+    end)
+    |> List.last()
+  end
+
+  def detect_color(round) do
+    cond do
+      String.contains?(round, "red") ->
+        {:red, extract_numeral(round)}
+
+      String.contains?(round, "blue") ->
+        {:blue, extract_numeral(round)}
+
+      String.contains?(round, "green") ->
+        {:green, extract_numeral(round)}
+
+      true ->
+        IO.inspect(round, label: "Bad input")
+        {:foo, 0}
+    end
+  end
+end
+```
+
+I thought at first this isn't going to work, because I tried to be crafty and skip splitting on the colon, and now the first pull in each round will have two integers. But we can just filter/map the results once we split the text, and then take the last integer in our results list. It's starting to look more and more like a maze, and I'm glad I had to refactor some of this out.
+
+There also seems to be an empty string that crops up, so I added a default condition for the `cond` block.
+
+```elixir
+games_by_pull =
+  Enum.map(games, fn game ->
+    game_by_round = String.split(game, ";")
+    # Let's go ahead and split the rounds by color pull in here,
+    # and save ourselves an iteration
+    Enum.map(game_by_round, fn round ->
+      rounds = String.split(round, ",")
+
+      Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+        {color, number} = Helpers.detect_color(round)
+        Map.put(acc, color, number)
+      end)
+    end)
+  end)
+```
+
+Okay, whew, we finally have our data in a usable format. That was the easy part :)
+
+Let's try reducing over these now and evaluating each game for possibility.
+
+I'm going to write another helper function to tell us whether a given game is possible or not. Unfortunately, because this is a Livebook, that means I can't reuse my `Helpers` module :/ I'll create a new one just for this function.
+
+The logic will look a little flipped; I'm looking for _any falsy value_ in a given game. Something like this:
+
+```
+  # invert the result, just because I'd rather have my function be
+  # `is_possible` than `is_impossible`
+  !Enum.any?(game, fn round ->
+    # game is impossible?
+      # return true
+    # game is possible?
+      # return false
+  end)
+```
+
+```elixir
+defmodule Possible do
+  def is_possible?(game) do
+    !Enum.any?(game, fn round ->
+      cond do
+        round.red > 12 -> true
+        round.blue > 13 -> true
+        round.green > 14 -> true
+        true -> false
+      end
+    end)
+  end
+end
+```
+
+```elixir
+Enum.reduce(games_by_pull, {0, 1}, fn game, {acc, index_acc} ->
+  # if game is impossible, return {acc, index_acc++}
+  # if game is possible, return {acc + index_acc, index_acc++}  
+
+  cond do
+    Possible.is_possible?(game) ->
+      IO.inspect(game, label: "possible")
+      {acc + index_acc, index_acc + 1}
+
+    true ->
+      IO.inspect(game, label: "impossible")
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+That's a bigger number than I expected... Is that even possible? Lemme sanity check real quick:
+
+$$
+\sum_{n=1}^{100} n
+$$
+
+```elixir
+Enum.sum(1..100)
+```
+
+Wow, okay, cool, this might actually be the right answer. Let's pop it in. I'm a little suspicious that the index accumulator is 102, though... It looks like there are only 100 games in the puzzle input.
+
+... Nope, I'm too low. Okay, let's take a look at some of our output and see if we can spot where we went wrong. I'm going to look at the example input.
+
+```elixir
+example_input = """
+Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+"""
+
+example_input
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.reduce({0, 1}, fn game, {acc, index_acc} ->
+  cond do
+    Possible.is_possible?(game) ->
+      IO.inspect(game, label: "possible")
+      IO.inspect(acc, label: "acc")
+      IO.inspect(index_acc, label: "index_acc")
+      {acc + index_acc + 1, index_acc + 1}
+
+    true ->
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+```elixir
+String.split(puzzle_input, "\n") |> List.last()
+```
+
+Oh, that `"Bad input"` came back to bite me: It thinks the last element in my list (all zeroes) is valid input. Also explains why my `index_acc` was 102 instead of 101. Let's trim that off.
+
+```elixir
+puzzle_input
+|> String.trim()
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.reduce({0, 1}, fn game, {acc, index_acc} ->
+  IO.inspect("---")
+
+  cond do
+    Possible.is_possible?(game) ->
+      IO.inspect(acc, label: "acc")
+      IO.inspect(index_acc, label: "index_acc")
+      IO.inspect("POSSIBLE")
+      {acc + index_acc, index_acc + 1}
+
+    true ->
+      IO.inspect(acc, label: "acc")
+      IO.inspect(index_acc, label: "index_acc")
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+... I'm still wrong. Whoops! Apparently this is still too low. I think there's a bug in my reducer. Let me look more carefully at it.
+
+* We start with an accumulator value of 0, because at the beginning, no IDs are possible.
+* We also start with an index accumulator of 1, because the IDs are one-based.
+* When a game is possible, we want to add its index value to the accumulator, and then increment the index accumulator.
+* When a game is not possible, we only increment the index accumulator.
+
+Let's see how we do with the example input.
+
+```elixir
+example_input
+|> String.trim()
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.reduce({0, 1}, fn game, {acc, index_acc} ->
+  cond do
+    Possible.is_possible?(game) ->
+      {acc + index_acc, index_acc + 1}
+
+    true ->
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+Unfortunately this looks correct :) Maybe we can look at some of the puzzle input, there could be some input I'm not handling properly.
+
+```elixir
+first_ten = """
+Game 1: 2 red, 2 green; 1 red, 1 green, 2 blue; 3 blue, 3 red, 3 green; 1 blue, 3 green, 7 red; 5 red, 3 green, 1 blue
+Game 2: 5 green, 4 red, 7 blue; 7 red, 4 green, 4 blue; 8 green, 11 blue, 4 red; 2 red, 18 blue, 3 green; 7 red, 15 blue
+Game 3: 2 green, 4 blue; 2 red, 2 green; 6 red, 1 green; 2 red, 1 green; 2 green; 5 blue, 5 red
+Game 4: 10 red, 7 green, 10 blue; 8 red, 2 green; 9 green, 6 red, 5 blue; 8 green, 2 blue, 4 red; 5 green, 9 blue; 10 red, 1 green, 9 blue
+Game 5: 10 blue, 7 green, 2 red; 2 blue, 4 red; 2 green, 9 blue, 8 red
+Game 6: 3 green, 8 red; 1 blue, 11 red, 2 green; 2 green, 15 red, 8 blue; 13 red, 6 blue, 3 green
+Game 7: 4 green, 10 red, 7 blue; 6 red, 9 blue, 9 green; 2 red, 1 blue, 6 green
+Game 8: 1 red, 3 blue, 2 green; 7 green, 2 blue; 10 green, 1 red, 2 blue; 1 red
+Game 9: 4 red, 3 green, 11 blue; 6 red, 4 green; 15 red, 7 blue, 7 green
+Game 10: 7 red, 1 blue, 5 green; 11 red, 7 green, 1 blue; 2 green, 4 blue, 13 red
+"""
+```
+
+By my estimate, the possibility map for this set looks like this:
+
+```
+1: possible
+2: impossible
+3: possible
+4: possible
+5: possible
+6: impossible
+7: possible
+8: possible
+9: impossible
+10: impossible
+```
+
+So the possible games are `[1 3 4 5 7 8]`, and the sum should be `28`
+
+```elixir
+first_ten
+|> String.trim()
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.reduce({0, 1}, fn game, {acc, index_acc} ->
+  cond do
+    Possible.is_possible?(game) ->
+      {acc + index_acc, index_acc + 1}
+
+    true ->
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+Cool, that's correct. Is it some sort of off-by-one error at the end?
+
+If my answer were too _high_, I'd say it was because there were too many cubes in the bag in total. But if it's too _low_, that means one of a few things:
+
+* I'm discounting something as impossible when it is possible
+* I'm not incrementing my accumulators correctly
+* I misread the instructions...
+
+**Ah damnit, it's the last one.** I hate it when it's that one! I mixed up the green and blue values. Let me define a new possibility module:
+
+```elixir
+defmodule ReallyPossible do
+  def is_possible?(game) do
+    !Enum.any?(game, fn round ->
+      cond do
+        round.red > 12 -> true
+        round.green > 13 -> true
+        round.blue > 14 -> true
+        true -> false
+      end
+    end)
+  end
+end
+```
+
+And try to run it again with the right parameters:
+
+```elixir
+puzzle_input
+|> String.trim()
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.reduce({0, 1}, fn game, {acc, index_acc} ->
+  cond do
+    ReallyPossible.is_possible?(game) ->
+      {acc + index_acc, index_acc + 1}
+
+    true ->
+      {acc, index_acc + 1}
+  end
+end)
+```
+
+And that's the right answer. I really should have learned how to read at some point.
+
+### On to part two
+
+We're being asked to find, basically, the largest number of each color that we see at one time.
+
+I spent so long on part one, burdened by illiteracy, that I'm just gonna dive into the code on this section.
+
+Most of the solution can stay the same, I just need to change my `ReallyPossible` to a different call that returns the highest number of each color. Then I need to multiply those values together. _Then_ I need to get the sum of those multiplied values.
+
+Let's get to it.
+
+```elixir
+defmodule Powers do
+  def calculate_powers(game) do
+    {r, g, b} =
+      Enum.reduce(game, {0, 0, 0}, fn round, {red_max, green_max, blue_max} ->
+        new_red_max = if round.red > red_max, do: round.red, else: red_max
+        new_green_max = if round.green > green_max, do: round.green, else: green_max
+        new_blue_max = if round.blue > blue_max, do: round.blue, else: blue_max
+
+        {new_red_max, new_green_max, new_blue_max}
+      end)
+
+    r * g * b
+  end
+end
+```
+
+Let's plop that into our original pipeline, and take the sum of these powers.
+
+```elixir
+puzzle_input
+|> String.trim()
+|> String.split("\n")
+|> Enum.map(fn game ->
+  game_by_round = String.split(game, ";")
+
+  Enum.map(game_by_round, fn round ->
+    rounds = String.split(round, ",")
+
+    Enum.reduce(rounds, %{red: 0, blue: 0, green: 0}, fn round, acc ->
+      {color, number} = Helpers.detect_color(round)
+      Map.put(acc, color, number)
+    end)
+  end)
+end)
+|> Enum.map(&Powers.calculate_powers/1)
+|> Enum.sum()
+```
+
+Haha! Hahaha. So much easier than part one. I love reading. It's magical.
